@@ -109,7 +109,7 @@
         <h1>Universal Geometry</h1>
         <div class="equation">d = t · φ⁴</div>
         <p>A variable cross-section torus where every proportion is governed by the golden ratio φ.</p>
-        <p><span class="green">● Cross-section disc:</span> The observable universe at a given moment — a 2D slice through the structure at any point along the spine.</p>
+        <p><span class="green">● Green Sphere:</span> The observable universe at a given moment. The disc is the equatorial cross-section moving through spacetime.</p>
         <div class="label">
             Major radius: R<br>
             Max cross-section: R / φ²<br>
@@ -580,7 +580,27 @@
             });
             discGroup.add(new THREE.Mesh(fillGeo, fillMat));
 
-            // Edge ring
+            // Sphere — the observable universe at this moment
+            const sphereGeo = new THREE.SphereGeometry(cr, 32, 32);
+            const sphereMat = new THREE.MeshBasicMaterial({
+                color: 0x00ff88, transparent: true, opacity: 0.1 * discFadeIn,
+                side: THREE.DoubleSide, depthWrite: false
+            });
+            const sphere = new THREE.Mesh(sphereGeo, sphereMat);
+            sphere.position.set(cx, 0, cz);
+            discGroup.add(sphere);
+
+            // Sphere wireframe for depth
+            const wireGeo = new THREE.SphereGeometry(cr, 16, 16);
+            const wireMat = new THREE.MeshBasicMaterial({
+                color: 0x00ff88, transparent: true, opacity: 0.2 * discFadeIn,
+                wireframe: true, depthWrite: false
+            });
+            const wire = new THREE.Mesh(wireGeo, wireMat);
+            wire.position.set(cx, 0, cz);
+            discGroup.add(wire);
+
+            // Equatorial edge ring (disc outline)
             const edgeGeo = new THREE.BufferGeometry().setFromPoints(edgePts);
             const edgeMat = new THREE.LineBasicMaterial({
                 color: 0x00ff88,
